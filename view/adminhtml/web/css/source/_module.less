@@ -1,0 +1,64 @@
+//
+//  Magetu Admin Category Tree Search — search box above the category tree
+//  _____________________________________________
+
+@cts__border-color: #adadad;
+@cts__accent-color: #007bdb;              // Magento admin blue — clear-hover / match highlight
+@cts__muted-color: #808080;
+@cts__hit__background-color: #fffbea;     // pale amber — matched-node highlight
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    .cts-search {
+        margin: 8px 0;
+
+        .cts-field {
+            position: relative;
+            display: block;
+        }
+
+        .cts-input {
+            width: 100%;
+            box-sizing: border-box; // full sidebar width, padding included
+            padding-right: 28px;    // room for the clear button
+        }
+
+        .cts-clear {
+            position: absolute;
+            top: 0;
+            right: 0;
+            display: none; // shown by JS only while there is text
+            width: 28px;
+            height: 32px;
+            padding: 0;
+            border: 0;
+            background: none;
+            color: @cts__border-color;
+            font-size: 18px;
+            line-height: 32px;
+            cursor: pointer;
+
+            &:hover {
+                color: @cts__accent-color;
+            }
+        }
+
+        .cts-empty,
+        .cts-capped {
+            display: none; // shown by JS only when a query has no matches / hit the result cap
+            margin-top: 6px;
+            color: @cts__muted-color;
+            font-size: 1.2rem;
+            font-style: italic;
+        }
+    }
+
+    //  The actual matched nodes, distinct from their revealed ancestors.
+    #tree-div .jstree-anchor.cts-hit {
+        font-weight: 600;
+        background-color: @cts__hit__background-color;
+    }
+}

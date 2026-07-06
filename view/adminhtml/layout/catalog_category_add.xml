@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="left">
+            <block class="Magento\Backend\Block\Template"
+                   name="category.tree.search"
+                   before="category.tree"
+                   template="Magetu_AdminCategoryTreeSearch::tree-search.phtml">
+                <arguments>
+                    <argument name="category_names_view_model" xsi:type="object">Magetu\AdminCategoryTreeSearch\ViewModel\CategoryNames</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

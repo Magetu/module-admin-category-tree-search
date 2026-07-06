@@ -1,0 +1,54 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * Admin category-tree search filter.
+ *
+ * Renders the search box (input + clear button + no-results notice) and hands the JS component a
+ * client-side {id: name} map so it can filter the already-loaded jstree without a server round trip.
+ *
+ * @var \Magento\Backend\Block\Template $block
+ * @var \Magento\Framework\Escaper $escaper
+ */
+
+/** @var \Magetu\AdminCategoryTreeSearch\ViewModel\CategoryNames $viewModel */
+$viewModel = $block->getData('category_names_view_model');
+
+// Cap on how many matches the filter reveals at once — a broad query on a large catalog must
+// not force jstree to open thousands of subtrees. Used by the JS and baked into the notice below.
+$maxResults = 500;
+
+$config = [
+    '[data-role=category-tree-search]' => [
+        'Magetu_AdminCategoryTreeSearch/js/category-tree-search' => [
+            'treeSelector' => '#tree-div',
+            'names' => $viewModel->getCategoryNames(),
+            'maxResults' => $maxResults,
+        ],
+    ],
+];
+?>
+<div data-role="category-tree-search" class="cts-search">
+    <div class="cts-field">
+        <input type="text"
+               data-role="cts-input"
+               class="admin__control-text cts-input"
+               autocomplete="off"
+               placeholder="<?= $escaper->escapeHtmlAttr(__('Search by name or ID…')) ?>"
+               aria-label="<?= $escaper->escapeHtmlAttr(__('Search categories by name or ID')) ?>"/>
+        <button type="button"
+                data-role="cts-clear"
+                class="cts-clear"
+                tabindex="-1"
+                title="<?= $escaper->escapeHtmlAttr(__('Clear search')) ?>"
+                aria-label="<?= $escaper->escapeHtmlAttr(__('Clear search')) ?>">&times;</button>
+    </div>
+    <div data-role="cts-empty" class="cts-empty"><?= $escaper->escapeHtml(__('No matching categories')) ?></div>
+    <div data-role="cts-capped" class="cts-capped">
+        <?= $escaper->escapeHtml(__('Too many matches — showing the first %1. Keep typing to narrow down.', $maxResults)) ?>
+    </div>
+</div>
+<script type="text/x-magento-init">
+    <?= /* @noEscape */ json_encode($config, JSON_HEX_TAG | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?>
+</script>
