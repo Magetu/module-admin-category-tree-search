@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <!-- *_commit_after, not *_save_after/_delete_after: those fire inside the DB transaction,
+         so a concurrent request could re-cache the pre-commit value right after the clean. -->
+    <event name="catalog_category_save_commit_after">
+        <observer name="magetu_admincategorytreesearch_invalidate_names_cache"
+                  instance="Magetu\AdminCategoryTreeSearch\Observer\InvalidateCategoryNamesCache"/>
+    </event>
+    <event name="catalog_category_delete_commit_after">
+        <observer name="magetu_admincategorytreesearch_invalidate_names_cache"
+                  instance="Magetu\AdminCategoryTreeSearch\Observer\InvalidateCategoryNamesCache"/>
+    </event>
+</config>
